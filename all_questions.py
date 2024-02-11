@@ -2,7 +2,7 @@
 
 # import student_code_with_answers.utils as u
 import utils as u
-
+import pandas as pd
 
 # Example of how to specify a binary with the structure:
 # See the file INSTRUCTIONS.md
@@ -10,6 +10,13 @@ import utils as u
 
 
 def question1():
+    
+    df = pd.DataFrame()
+    df['Tobacco Smoking'] = ['Yes', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'No', 'No', 'No', 'No']
+    df['Radon Exposure'] = ['Yes', 'No', 'No', 'No', 'Yes', 'No', 'No', 'No', 'No', 'No']
+    df['Chronic Cough'] = ['Yes', 'Yes', 'Yes', 'Yes', 'No', 'No', 'Yes', 'Yes', 'Yes', 'No']
+    df['Weight Loss'] = ['No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'No', 'Yes', 'No', 'Yes']
+    df['Lung Cancer'] = ['Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'No', 'No', 'No', 'No', 'No']
     """
     Note 1: Each attribute can appear as a node in the tree AT MOST once.
     Note 2: For level two, fill the keys for all cases left and right. If and attribute
@@ -22,18 +29,45 @@ def question1():
     level1 = {}
     level2_left = {}
     level2_right = {}
+    
+    # Total Entropy of Table
+    class_counts = df['Lung Cancer'].value_counts()
+    total_samples = df.shape[0]
+    H = 0
+    for count in class_counts:
+        probability = count / total_samples
+        H -= probability * u.log2(probability)
+        
+    def information_gain(attribute):
+        categories = df[attribute].unique()
+        conditional_entropies = {}
+        for category in categories:
+            subset = df[df[attribute] == category]['Lung Cancer']
+            counts = subset.value_counts()
+            entropy = 0
+            for count in counts:
+                probability = count / counts.sum()
+                entropy -= probability * u.log2(probability)
+            conditional_entropies[category] = entropy
+        weighted_entropy = 0
+        for category, entropy in conditional_entropies.items():
+            weight = df[df[attribute] == category].shape[0] / total_samples
+            weighted_entropy += weight * entropy
+        information_gain = H - weighted_entropy
+        return information_gain
+
 
     level1["smoking"] = 0.
-    level1["smoking_info_gain"] = 0.
+    level1["smoking_info_gain"] = information_gain("Tobacco Smoking")
 
     level1["cough"] = 0.
-    level1["cough_info_gain"] = 0.
+    level1["cough_info_gain"] = information_gain("Chronic Cough")
 
     level1["radon"] = 0.
-    level1["radon_info_gain"] = 0.
+    level1["radon_info_gain"] = information_gain("Radon Exposure")
 
     level1["weight_loss"] = 0.0
-    level1["weight_loss_info_gain"] = 0.
+    level1["weight_loss_info_gain"] = information_gain("Weight Loss")
 
     level2_left["smoking"] = 0.
     level2_left["smoking_info_gain"] = 0.
@@ -71,7 +105,7 @@ def question1():
 
     return answer
 
-
+print(question1())
 # ----------------------------------------------------------------------
 
 
@@ -79,6 +113,8 @@ def question2():
     answer = {}
 
     # Answers are floats
+    total_entropy = -(2/6)*u.log2(2/6)-(2/6)*u.log2(2/6)-(2/6)*u.log2(2/6)
+    
     answer["(a) entropy_entire_data"] = 0.
     # Infogain
     answer["(b) x <= 0.2"] = 0.
