@@ -138,12 +138,17 @@ def question2():
 def question3():
     answer = {}
 
+
     # float
-    answer["(a) Gini, overall"] = 0.
+    gini_a = 1 - (.5)**2 - (.5)**2
+    answer["(a) Gini, overall"] = gini_a
 
     # float
     answer["(b) Gini, ID"] = 0.0
-    answer["(c) Gini, Gender"] = 0.
+    
+    gini_c = .5*(1-2*.5**2)+.5*(1-2*.5**2)
+    answer["(c) Gini, Gender"] = gini_c
+    
     answer["(d) Gini, Car type"] = 0.
     answer["(e) Gini, Shirt type"] = 0.
 
@@ -171,46 +176,46 @@ def question4():
     #  'quantitative', 'interval', 'ratio'
     # If you have a choice between 'binary' and 'discrete', choose 'binary'
 
-    answer["a"] = []
+    answer["a"] = ["binary", "qualitative", "nominal"]
 
     # Explain if there is more than one interpretation. Repeat for the other questions. At least five words that form a sentence.
-    answer["a: explain"] = ""
+    answer["a: explain"] = "Only two options, AM or PM, makes it binary."
 
-    answer["b"] = []
+    answer["b"] = ["continuous", "quantitative", "ratio"]
     answer["b: explain"] = ""
 
-    answer["c"] = []
-    answer["c: explain"] = ""
+    answer["c"] = ["discrete", "qualitative", "ordinal"]
+    answer["c: explain"] = "If people are choosing from a finite number of options."
 
-    answer["d"] = []
+    answer["d"] = ["continuous", "quantitative", "ratio"]
     answer["d: explain"] = ""
 
-    answer["e"] = []
+    answer["e"] = ["discrete", "qualitative", "ordinal"]
     answer["e: explain"] = ""
 
-    answer["f"] = []
-    answer["f: explain"] = ""
+    answer["f"] = ["continuous", "quantitative", "ratio"]
+    answer["f: explain"] = "There can be a zero point of 0 feet above sea level."
 
-    answer["g"] = []
+    answer["g"] = ["discrete", "quantitative", "ratio"]
     answer["g: explain"] = ""
 
-    answer["h"] = []
-    answer["h: explain"] = ""
+    answer["h"] = ["discrete", "qualitative", "ordinal"]
+    answer["h: explain"] = "Books in the library are ordered by their ISBN."
 
-    answer["i"] = []
-    answer["i: explain"] = ""
+    answer["i"] = ["discrete", "qualitative", "ordinal"]
+    answer["i: explain"] = "There is order by the level of light coming through."
 
-    answer["j"] = []
+    answer["j"] = ["discrete", "qualitative", "ordinal"]
     answer["j: explain"] = ""
 
-    answer["k"] = []
+    answer["k"] = ["continuous", "quantitative", "ratio"]
     answer["k: explain"] = ""
 
-    answer["l"] = []
-    answer["l: explain"] = ""
+    answer["l"] = ["continuous", "quantitative", "interval"]
+    answer["l: explain"] = "There is no known substance with zero mass, therefore there is no zero point for density."
 
-    answer["m"] = []
-    answer["m: explain"] = ""
+    answer["m"] = ["discrete", "qualitative", "ordinal"]
+    answer["m: explain"] = "There is an order because people who get coats checked first have lower numbers."
 
     return answer
 
