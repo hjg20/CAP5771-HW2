@@ -4,13 +4,13 @@
 import utils as u
 import pandas as pd
 
+
 # Example of how to specify a binary with the structure:
 # See the file INSTRUCTIONS.md
 # ----------------------------------------------------------------------
 
 
 def question1():
-    
     df = pd.DataFrame()
     df['Tobacco Smoking'] = ['Yes', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'No', 'No', 'No', 'No']
     df['Radon Exposure'] = ['Yes', 'No', 'No', 'No', 'Yes', 'No', 'No', 'No', 'No', 'No']
@@ -29,7 +29,7 @@ def question1():
     level1 = {}
     level2_left = {}
     level2_right = {}
-    
+
     # Total Entropy of Table
     class_counts = df['Lung Cancer'].value_counts()
     total_samples = df.shape[0]
@@ -37,7 +37,7 @@ def question1():
     for count in class_counts:
         probability = count / total_samples
         H -= probability * u.log2(probability)
-        
+
     def information_gain(attribute):
         categories = df[attribute].unique()
         conditional_entropies = {}
@@ -55,7 +55,6 @@ def question1():
             weighted_entropy += weight * entropy
         information_gain = H - weighted_entropy
         return information_gain
-
 
     level1["smoking"] = 0.
     level1["smoking_info_gain"] = information_gain("Tobacco Smoking")
@@ -101,11 +100,11 @@ def question1():
     tree = u.BinaryTree("root")  # MUST STILL CREATE THE TREE *****
     answer["tree"] = tree  # use the Tree structure
     # answer["training_error"] = training_error
-    answer["training_error"] = 0.0  
+    answer["training_error"] = 0.0
 
     return answer
 
-print(question1())
+
 # ----------------------------------------------------------------------
 
 
@@ -113,8 +112,8 @@ def question2():
     answer = {}
 
     # Answers are floats
-    total_entropy = -(2/6)*u.log2(2/6)-(2/6)*u.log2(2/6)-(2/6)*u.log2(2/6)
-    
+    total_entropy = -(2 / 6) * u.log2(2 / 6) - (2 / 6) * u.log2(2 / 6) - (2 / 6) * u.log2(2 / 6)
+
     answer["(a) entropy_entire_data"] = 0.
     # Infogain
     answer["(b) x <= 0.2"] = 0.
@@ -122,7 +121,7 @@ def question2():
     answer["(b) y <= 0.6"] = 0.
 
     # choose one of 'x=0.2', 'x=0.7', or 'x=0.6'
-    answer["(c) attribute"] = ""  
+    answer["(c) attribute"] = ""
 
     # Use the Binary Tree structure to construct the tree
     # Answer is an instance of BinaryTree
@@ -138,24 +137,29 @@ def question2():
 def question3():
     answer = {}
 
-
     # float
-    gini_a = 1 - (.5)**2 - (.5)**2
+    gini_a = 1 - ((10/20)**2 + (10/20)**2)
     answer["(a) Gini, overall"] = gini_a
 
     # float
-    answer["(b) Gini, ID"] = 0.0
-    
-    gini_c = .5*(1-2*.5**2)+.5*(1-2*.5**2)
-    answer["(c) Gini, Gender"] = gini_c
-    
-    answer["(d) Gini, Car type"] = 0.
-    answer["(e) Gini, Shirt type"] = 0.
+    answer["(b) Gini, ID"] = 0.
 
-    answer["(f) attr for splitting"] = ""
+    gini_c = (10/20)*(1-(6/10)**2-(4/10)**2)+(10/20)*(1-(4/10)**2-(6/10)**2)
+    answer["(c) Gini, Gender"] = gini_c
+
+    gini_d = (4/20)*(1-(1/4)**2-(3/4)**2)+(8/20)*(1-(0/8)**2-(8/8)**2)+(8/20)*(1-(1/8)**2-(7/8)**2)
+    answer["(d) Gini, Car type"] = gini_d
+
+    gini_e = (5/20)*(1-(3/5)**2-(2/5)**2)+(7/20)*(1-(3/7)**2-(4/7)**2)+(4/20)*(1-(2/4)**2-(2/4)**2)+(4/20)*(1-(2/4)**2-(2/4)**2)
+    answer["(e) Gini, Shirt type"] = gini_e
+
+    answer["(f) attr for splitting"] = "Car Type"
 
     # Explanatory text string
-    answer["(f) explain choice"] = ""
+    answer["(f) explain choice"] = ("Car type has the lowest gini index and indicates the "
+                                    "attribute with the highest purity split. Customer ID technically has "
+                                    "the lowest gini, but tells us no information about the Class values "
+                                    "because every new record in the table will be assigned a new ID.")
 
     return answer
 
@@ -182,10 +186,10 @@ def question4():
     answer["a: explain"] = "Only two options, AM or PM, makes it binary."
 
     answer["b"] = ["continuous", "quantitative", "ratio"]
-    answer["b: explain"] = ""
+    answer["b: explain"] = "There can be zero light."
 
     answer["c"] = ["discrete", "qualitative", "ordinal"]
-    answer["c: explain"] = "If people are choosing from a finite number of options."
+    answer["c: explain"] = ""
 
     answer["d"] = ["continuous", "quantitative", "ratio"]
     answer["d: explain"] = ""
@@ -229,22 +233,33 @@ def question5():
     # Read appropriate section of book chapter 3
 
     # string: one of 'Model 1' or 'Model 2'
-    explain["a"] = ""
-    explain["a explain"] = ""
+    explain["a"] = "Model 2"
+    explain["a explain"] = ("Model 1 is not pruned and is over-fitting the training data, which is why dataset B "
+                            "(the testing data) has such a low accuracy compared to the accuracy in Model 2, "
+                            "which is pruned and therefore is combating over-fitting.")
 
     # string: one of 'Model 1' or 'Model 2'
-    explain["b"] = ""
-    explain["b explain"] = ""
+    explain["b"] = "Model 2"
+    explain["b explain"] = ("Model 1 is still over-fitting dataset A. Therefore, when tested against both dataset "
+                            "A and B combined, the accuracy is much higher because it's so accustomed to the data "
+                            "in dataset A. If we were to introduce unseen data, Model 2 would perform better "
+                            "than Model 1.")
 
-    explain["c similarity"] = ""
-    explain["c similarity explain"] = ""
+    explain["c similarity"] = "Both prevent over-fitting."
+    explain["c similarity explain"] = ("Both MDL and Pessimistic Error Estimate have some sort of method that "
+                                       "discourages a tree to grow complex and over-fit training data and "
+                                       "encourages it to stay simple.")
 
-    explain["c difference"] = ""
-    explain["c difference explain"] = ""
+    explain["c difference"] = ("MDL aims mainly at reducing the complexity of the tree whereas Pessimistic Error "
+                               "Estimate aims to reduce the error rate through penalties.")
+    explain["c difference explain"] = ("MDL wants to create a tree which has the shortest total "
+                                       "length of the tree and the smallest training errors. Pessimistic Error "
+                                       "Estimate adds penalty terms that increases alongside the complexity of "
+                                       "the tree in order to decrease error.")
 
     return explain
 
-
+print(question5())
 # ----------------------------------------------------------------------
 def question6():
     answer = {}
@@ -255,7 +270,7 @@ def question6():
     #  and "float" is a floating point number (notice: <=)
     # The value could also be "A" or "B" if it is a leaf
     answer["a, level 1"] = ""
-    answer["a, level 2, right"] =""
+    answer["a, level 2, right"] = ""
     answer["a, level 2, left"] = ""
     answer["a, level 3, left"] = ""
     answer["a, level 3, right"] = ""
@@ -309,4 +324,3 @@ if __name__ == "__main__":
     answers["q7"] = question7()
 
     u.save_dict("answers.pkl", answers)
-
