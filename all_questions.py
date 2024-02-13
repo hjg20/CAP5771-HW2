@@ -34,62 +34,74 @@ def question1():
     smoking_entropy = -(5/10)*(4/5*u.log2(4/5)+1/5*u.log2(1/5))-(5/10)*(1/5*u.log2(1/5)+4/5*u.log2(4/5))
     smoking_gain = S - smoking_entropy
 
-    level1["smoking"] = 0.
+    level1["smoking"] = 1
     level1["smoking_info_gain"] = smoking_gain
 
     cough_entropy = -(7/10)*(4/7*u.log2(4/7)+3/7*u.log2(3/7))-(3/10)*(1/3*u.log2(1/3)+2/3*u.log2(2/3))
     cough_gain = S - cough_entropy
-    level1["cough"] = 0.
-    level1["cough_info_gain"] = cough_gain
+    level1["cough"] = -1
+    level1["cough_info_gain"] = -1
 
     radon_entropy = -(2/10)*(2/2*u.log2(2/2)+0)-(8/10)*(3/8*u.log2(3/8)+5/8*u.log2(5/8))
     radon_gain = S - radon_entropy
-    level1["radon"] = 0.
-    level1["radon_info_gain"] = radon_gain
+    level1["radon"] = -1
+    level1["radon_info_gain"] = -1
 
     weight_entropy = -(5/10)*(3/5*u.log2(3/5)+2/5*u.log2(2/5))-(5/10)*(2/5*u.log2(2/5)+3/5*u.log2(3/5))
     weight_gain = S - weight_entropy
-    level1["weight_loss"] = 0.0
-    level1["weight_loss_info_gain"] = weight_gain
+    level1["weight_loss"] = -1
+    level1["weight_loss_info_gain"] = -1
 
-    level2_left["smoking"] = 0.
-    level2_left["smoking_info_gain"] = 0.
-    level2_right["smoking"] = 0.
-    level2_right["smoking_info_gain"] = 0.
+    level2_left["smoking"] = -1
+    level2_left["smoking_info_gain"] = -1
+    level2_right["smoking"] = -1
+    level2_right["smoking_info_gain"] = -1
 
-    level2_left["radon"] = 0.
-    level2_left["radon_info_gain"] = 0.
+    radon_left_gain = -(4/5)*(3/4*u.log2(3/4)+1/4*u.log2(1/4))-(1/5)*(1/1*u.log2(1/1)+0)
+    level2_left["radon"] = 1
+    level2_left["radon_info_gain"] = radon_left_gain
 
-    level2_left["cough"] = 0.
-    level2_left["cough_info_gain"] = 0.
+    cough_left_gain = -(4/5)*(4/4*u.log2(4/4)+0)-(1/5)*(1/1*u.log2(1/1)+0)
+    level2_left["cough"] = -1
+    level2_left["cough_info_gain"] = -1
 
-    level2_left["weight_loss"] = 0.
-    level2_left["weight_loss_info_gain"] = 0.
+    weight_left_gain = -(3/5)*(2/3*u.log2(2/3)+1/3*u.log2(1/3))-(2/5)*(2/2*u.log2(2/2)+0)
+    level2_left["weight_loss"] = -1
+    level2_left["weight_loss_info_gain"] = -1
 
-    level2_right["radon"] = 0.
-    level2_right["radon_info_gain"] = 0.
+    level2_right["radon"] = -1
+    level2_right["radon_info_gain"] = -1
 
-    level2_right["cough"] = 0.
-    level2_right["cough_info_gain"] = 0.
+    cough_right_gain = -(2/5)*(1/2*u.log2(1/2)+1/2*u.log2(1/2))-(3/5)*(3/3*u.log2(3/3)+0)
+    level2_right["cough"] =-1
+    level2_right["cough_info_gain"] = -1
 
-    level2_right["weight_loss"] = 0.
-    level2_right["weight_loss_info_gain"] = 0.
+    weight_right_gain = -(2/5)*(2/2*u.log2(2/2)+0)-(3/5)*(1/3*u.log2(1/3)+2/3*u.log2(2/3))
+    level2_right["weight_loss"] = 1
+    level2_right["weight_loss_info_gain"] = weight_right_gain
 
     answer["level1"] = level1
     answer["level2_left"] = level2_left
     answer["level2_right"] = level2_right
 
-    # Fill up `construct_tree``
-    # tree, training_error = construct_tree()
-    tree = u.BinaryTree("Tobacco Smoking")  # MUST STILL CREATE THE TREE *****
+    def construct_tree():
+        tree = u.BinaryTree("Tobacco Smoking")
+        A = tree.insert_left("Radon Exposure")
+        B = tree.insert_right("Weight Loss")
+        A.insert_left("y")
+        A.insert_right("n")
+        B.insert_left("n")
+        B.insert_right("y")
+        training_error = 5/10
+        return tree, training_error
 
-    answer["tree"] = tree  # use the Tree structure
-    # answer["training_error"] = training_error
-    answer["training_error"] = 0.0
+    # Fill up `construct_tree``
+    tree, training_error = construct_tree()
+    answer["tree"] = tree
+    answer["training_error"] = training_error
 
     return answer
 
-print(question1())
 # ----------------------------------------------------------------------
 
 
