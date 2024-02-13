@@ -95,7 +95,7 @@ def question1():
         training_error = 5/10
         return tree, training_error
 
-    # Fill up `construct_tree``
+    # Fill up `construct_tree`
     tree, training_error = construct_tree()
     answer["tree"] = tree
     answer["training_error"] = training_error
