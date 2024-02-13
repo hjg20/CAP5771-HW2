@@ -30,43 +30,27 @@ def question1():
     level2_left = {}
     level2_right = {}
 
-    # Total Entropy of Table
-    class_counts = df['Lung Cancer'].value_counts()
-    total_samples = df.shape[0]
-    H = 0
-    for count in class_counts:
-        probability = count / total_samples
-        H -= probability * u.log2(probability)
-
-    def information_gain(attribute):
-        categories = df[attribute].unique()
-        conditional_entropies = {}
-        for category in categories:
-            subset = df[df[attribute] == category]['Lung Cancer']
-            counts = subset.value_counts()
-            entropy = 0
-            for count in counts:
-                probability = count / counts.sum()
-                entropy -= probability * u.log2(probability)
-            conditional_entropies[category] = entropy
-        weighted_entropy = 0
-        for category, entropy in conditional_entropies.items():
-            weight = df[df[attribute] == category].shape[0] / total_samples
-            weighted_entropy += weight * entropy
-        information_gain = H - weighted_entropy
-        return information_gain
+    S = -(5/10*u.log2(5/10)+5/10*u.log2(5/10))
+    smoking_entropy = -(5/10)*(4/5*u.log2(4/5)+1/5*u.log2(1/5))-(5/10)*(1/5*u.log2(1/5)+4/5*u.log2(4/5))
+    smoking_gain = S - smoking_entropy
 
     level1["smoking"] = 0.
-    level1["smoking_info_gain"] = information_gain("Tobacco Smoking")
+    level1["smoking_info_gain"] = smoking_gain
 
+    cough_entropy = -(7/10)*(4/7*u.log2(4/7)+3/7*u.log2(3/7))-(3/10)*(1/3*u.log2(1/3)+2/3*u.log2(2/3))
+    cough_gain = S - cough_entropy
     level1["cough"] = 0.
-    level1["cough_info_gain"] = information_gain("Chronic Cough")
+    level1["cough_info_gain"] = cough_gain
 
+    radon_entropy = -(2/10)*(2/2*u.log2(2/2)+0)-(8/10)*(3/8*u.log2(3/8)+5/8*u.log2(5/8))
+    radon_gain = S - radon_entropy
     level1["radon"] = 0.
-    level1["radon_info_gain"] = information_gain("Radon Exposure")
+    level1["radon_info_gain"] = radon_gain
 
+    weight_entropy = -(5/10)*(3/5*u.log2(3/5)+2/5*u.log2(2/5))-(5/10)*(2/5*u.log2(2/5)+3/5*u.log2(3/5))
+    weight_gain = S - weight_entropy
     level1["weight_loss"] = 0.0
-    level1["weight_loss_info_gain"] = information_gain("Weight Loss")
+    level1["weight_loss_info_gain"] = weight_gain
 
     level2_left["smoking"] = 0.
     level2_left["smoking_info_gain"] = 0.
@@ -97,14 +81,15 @@ def question1():
 
     # Fill up `construct_tree``
     # tree, training_error = construct_tree()
-    tree = u.BinaryTree("root")  # MUST STILL CREATE THE TREE *****
+    tree = u.BinaryTree("Tobacco Smoking")  # MUST STILL CREATE THE TREE *****
+
     answer["tree"] = tree  # use the Tree structure
     # answer["training_error"] = training_error
     answer["training_error"] = 0.0
 
     return answer
 
-
+print(question1())
 # ----------------------------------------------------------------------
 
 
@@ -259,7 +244,6 @@ def question5():
 
     return explain
 
-print(question5())
 # ----------------------------------------------------------------------
 def question6():
     answer = {}
@@ -293,23 +277,35 @@ def question6():
 def question7():
     answer = {}
 
+    entropy = -((10/20)*u.log2(10/20)+(10/20)*u.log2(10/20))
+    id_gain = entropy-0
     # float
-    answer["a, info gain, ID"] = 0.
-    answer["b, info gain, Handedness"] = 0.
+    answer["a, info gain, ID"] = id_gain
+
+    entropy_left = -((9/10)*u.log2(9/10)+(1/10)*u.log2(1/10))
+    entropy_right = -((1/10)*u.log2(1/10)+(9/10)*u.log2(9/10))
+    weighted_entropy_subsets = (10/20)*entropy_left+(10/20)*entropy_right
+    h_gain = entropy-weighted_entropy_subsets
+    answer["b, info gain, Handedness"] = h_gain
 
     # string: "ID" or "Handedness"
-    answer["c, which attrib"] = ""
+    answer["c, which attrib"] = "ID"
 
+    info = -20*(1/20*u.log2(1/20))
+    id_gain_ratio = id_gain / info
     # answer is a float
-    answer["d, gain ratio, ID"] = 0.
-    answer["e, gain ratio, Handedness"] = 0.
+    answer["d, gain ratio, ID"] = id_gain_ratio
+
+    info = -(10/20*u.log2(10/20)+10/20*u.log2(10/20))
+
+    h_gain_ratio= h_gain/info
+    answer["e, gain ratio, Handedness"] = h_gain_ratio
 
     # string: one of 'ID' or 'Handedness' based on gain ratio
     # choose the attribute with the largest gain ratio
-    answer["f, which attrib"] = ""
+    answer["f, which attrib"] = "Handedness"
 
     return answer
-
 
 # ----------------------------------------------------------------------
 
