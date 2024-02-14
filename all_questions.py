@@ -124,16 +124,25 @@ def question2():
     answer["(b) y <= 0.6"] = total_entropy - entropy
 
     # choose one of 'x=0.2', 'x=0.7', or 'x=0.6'
-    answer["(c) attribute"] = "y<=6"
+    answer["(c) attribute"] = "y<=0.6"
 
     # Use the Binary Tree structure to construct the tree
     # Answer is an instance of BinaryTree
-    tree = u.BinaryTree("y<=6")
+    tree = u.BinaryTree("y<=0.6")
+    A = tree.insert_left("x<=0.7")
+    A.insert_left("B")
+    B = A.insert_right("y<=0.3")
+    B.insert_left("A")
+    B.insert_right("C")
+    C = tree.insert_right("x<=0.2")
+    C.insert_right("A")
+    D = C.insert_left("y<=0.8")
+    D.insert_left("C")
+    D.insert_right("B")
     answer["(d) full decision tree"] = tree
 
     return answer
 
-print(question2())
 # ----------------------------------------------------------------------
 
 
@@ -265,31 +274,47 @@ def question5():
 # ----------------------------------------------------------------------
 def question6():
     answer = {}
+
+    total_entropy = 1-(.76**2+.24**2)
+    x_less_five = .5*(1-(.5**2))+.5*(1-(.26**2+.24**2))
+    x_less_two = .2*(1-(.14**2+.06**2))+.8*(1-(.62**2+.28**2))
+    y_less_four = .4*(1-(.4**2))+.6*(1-(.36**2+.24**2))
+    y_less_seven = .7*(1-(.15**2+.55**2))+.3*(1-(.21**2+.09**2))
+    l2_y_less_four = .08*(1-.08**2)+.12*(1-(.06**2+.06**2))
+    l2_y_less_seven = .06 * (1 - .06 ** 2) + .14 * (1 - (.06 ** 2 + .08 ** 2))
+
+    l2_x_less_5 = .5*(1-.5**2)+.3*(1-(.12**2+.18**2))
+    l2_y_less_4_2 = .32*(1-.32**2)+.48*(1-(.18**2+.3**2))
+
     # x <= ? is the left branch
     # y <= ? is the left branch
 
     # value of the form "z <= float" where "z" is "x" or "y"
     #  and "float" is a floating point number (notice: <=)
     # The value could also be "A" or "B" if it is a leaf
-    answer["a, level 1"] = ""
-    answer["a, level 2, right"] = ""
-    answer["a, level 2, left"] = ""
+    answer["a, level 1"] = "x<=.2"
+    answer["a, level 2, right"] = "x<=.5"
+    answer["a, level 2, left"] = "y<=.4"
     answer["a, level 3, left"] = ""
     answer["a, level 3, right"] = ""
 
     # run each datum through the tree. Count the number of errors and divide by number of samples. .
     # Since we have areas: calculate the area that is misclassified (total area is unity)
     # float between 0 and 1
-    answer["b, expected error"] = 0.
+    answer["b, expected error"] = .18
 
     # Use u.BinaryTree to define the tree. Create your tree.
     # Replace "root node" by the proper node of the form "z <= float"
     tree = u.BinaryTree("root note")
-
+    A = tree.insert_left("y<=.4")
+    B = tree.insert_right("x<=.5")
+    A.insert_left("A")
+    A.insert_right("B")
+    B.insert_left("B")
+    B.insert_right("A")
     answer["c, tree"] = tree
 
     return answer
-
 
 # ----------------------------------------------------------------------
 def question7():
