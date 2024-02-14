@@ -109,11 +109,13 @@ def question2():
     answer = {}
 
     # Answers are floats
-    total_entropy = -(2 / 6) * u.log2(2 / 6) - (2 / 6) * u.log2(2 / 6) - (2 / 6) * u.log2(2 / 6)
+    total_entropy = - (.41*u.log2(.41)+.46*u.log2(.46)+.13*u.log2(.13))
 
-    answer["(a) entropy_entire_data"] = 0.
-    # Infogain
-    answer["(b) x <= 0.2"] = 0.
+    answer["(a) entropy_entire_data"] = total_entropy
+
+    # Info gain
+    entropy = -.2*(0+.16/.2*u.log2(.16/.2)+.04/.2*u.log2(.04/.2))-.8*(.41/.8*u.log2(.41/.8)+.3/.8*u.log2(.3/.8)+.09/.8*u.log2(.09/.8))
+    answer["(b) x <= 0.2"] = total_entropy - entropy
     answer["(b) x <= 0.7"] = 0.
     answer["(b) y <= 0.6"] = 0.
 
@@ -127,7 +129,7 @@ def question2():
 
     return answer
 
-
+print(question2())
 # ----------------------------------------------------------------------
 
 
