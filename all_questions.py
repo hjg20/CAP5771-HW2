@@ -11,12 +11,6 @@ import pandas as pd
 
 
 def question1():
-    df = pd.DataFrame()
-    df['Tobacco Smoking'] = ['Yes', 'Yes', 'Yes', 'Yes', 'No', 'Yes', 'No', 'No', 'No', 'No']
-    df['Radon Exposure'] = ['Yes', 'No', 'No', 'No', 'Yes', 'No', 'No', 'No', 'No', 'No']
-    df['Chronic Cough'] = ['Yes', 'Yes', 'Yes', 'Yes', 'No', 'No', 'Yes', 'Yes', 'Yes', 'No']
-    df['Weight Loss'] = ['No', 'No', 'Yes', 'Yes', 'Yes', 'No', 'No', 'Yes', 'No', 'Yes']
-    df['Lung Cancer'] = ['Yes', 'Yes', 'Yes', 'Yes', 'Yes', 'No', 'No', 'No', 'No', 'No']
     """
     Note 1: Each attribute can appear as a node in the tree AT MOST once.
     Note 2: For level two, fill the keys for all cases left and right. If and attribute
@@ -92,11 +86,10 @@ def question1():
     A.insert_right("y")
     B.insert_left("n")
     B.insert_right("y")
-    training_error = 6/10
 
     # Fill up `construct_tree`
     answer["tree"] = tree
-    answer["training_error"] = training_error
+    answer["training_error"] = 0.6
 
     return answer
 
@@ -166,10 +159,7 @@ def question3():
     answer["(f) attr for splitting"] = "Car Type"
 
     # Explanatory text string
-    answer["(f) explain choice"] = ("Car type has the lowest gini index and indicates the "
-                                    "attribute with the highest purity split. Customer ID technically has "
-                                    "the lowest gini, but tells us no information about the Class values "
-                                    "because every new record in the table will be assigned a new ID.")
+    answer["(f) explain choice"] = "Car type has the lowest gini index and indicates the attribute with the highest purity split. Customer ID technically has the lowest gini, but tells us no information about the Class values because every new record in the table will be assigned a new ID."
 
     return answer
 
@@ -199,19 +189,19 @@ def question4():
     answer["b: explain"] = "There can be zero light."
 
     answer["c"] = ["discrete", "qualitative", "ordinal"]
-    answer["c: explain"] = ""
+    answer["c: explain"] = " "
 
     answer["d"] = ["continuous", "quantitative", "ratio"]
-    answer["d: explain"] = ""
+    answer["d: explain"] = " "
 
     answer["e"] = ["discrete", "qualitative", "ordinal"]
-    answer["e: explain"] = ""
+    answer["e: explain"] = " "
 
     answer["f"] = ["continuous", "quantitative", "ratio"]
     answer["f: explain"] = "There can be a zero point of 0 feet above sea level."
 
     answer["g"] = ["discrete", "quantitative", "ratio"]
-    answer["g: explain"] = ""
+    answer["g: explain"] = " "
 
     answer["h"] = ["discrete", "qualitative", "ordinal"]
     answer["h: explain"] = "Books in the library are ordered by their ISBN."
@@ -220,10 +210,10 @@ def question4():
     answer["i: explain"] = "There is order by the level of light coming through."
 
     answer["j"] = ["discrete", "qualitative", "ordinal"]
-    answer["j: explain"] = ""
+    answer["j: explain"] = " "
 
     answer["k"] = ["continuous", "quantitative", "ratio"]
-    answer["k: explain"] = ""
+    answer["k: explain"] = " "
 
     answer["l"] = ["continuous", "quantitative", "interval"]
     answer["l: explain"] = "There is no known substance with zero mass, therefore there is no zero point for density."
@@ -236,7 +226,6 @@ def question4():
 
 # ----------------------------------------------------------------------
 
-
 def question5():
     explain = {}
 
@@ -244,28 +233,18 @@ def question5():
 
     # string: one of 'Model 1' or 'Model 2'
     explain["a"] = "Model 2"
-    explain["a explain"] = ("Model 1 is not pruned and is over-fitting the training data, which is why dataset B "
-                            "(the testing data) has such a low accuracy compared to the accuracy in Model 2, "
-                            "which is pruned and therefore is combating over-fitting.")
+    explain["a explain"] = "Model 1 is not pruned and is over-fitting the training data, which is why dataset B (the testing data) has such a low accuracy compared to the accuracy in Model 2, which is pruned and therefore is combating over-fitting."
 
     # string: one of 'Model 1' or 'Model 2'
     explain["b"] = "Model 2"
-    explain["b explain"] = ("Model 1 is still over-fitting dataset A. Therefore, when tested against both dataset "
-                            "A and B combined, the accuracy is much higher because it's so accustomed to the data "
-                            "in dataset A. If we were to introduce unseen data, Model 2 would perform better "
-                            "than Model 1.")
+    explain["b explain"] = "Model 1 is still over-fitting dataset A. Therefore, when tested against both dataset in dataset A. If we were to introduce unseen data, Model 2 would perform better than Model 1."
 
     explain["c similarity"] = "Both prevent over-fitting."
-    explain["c similarity explain"] = ("Both MDL and Pessimistic Error Estimate have some sort of method that "
-                                       "discourages a tree to grow complex and over-fit training data and "
-                                       "encourages it to stay simple.")
+    explain["c similarity explain"] = "Both MDL and Pessimistic Error Estimate have some sort of method that discourages a tree to grow complex and over-fit training data and encourages it to stay simple."
 
-    explain["c difference"] = ("MDL aims mainly at reducing the complexity of the tree whereas Pessimistic Error "
-                               "Estimate aims to reduce the error rate through penalties.")
-    explain["c difference explain"] = ("MDL wants to create a tree which has the shortest total "
-                                       "length of the tree and the smallest training errors. Pessimistic Error "
-                                       "Estimate adds penalty terms that increases alongside the complexity of "
-                                       "the tree in order to decrease error.")
+    explain["c difference"] = "MDL aims mainly at reducing the complexity of the tree whereas Pessimistic Error Estimate aims to reduce the error rate through penalties."
+
+    explain["c difference explain"] = """MDL wants to create a tree which has the shortest total length of the tree and the smallest training errors. Pessimistic Error Estimate adds penalty terms that increases alongside the complexity of the tree in order to decrease error."""
 
     return explain
 
@@ -298,9 +277,9 @@ def question6():
     # Replace "root node" by the proper node of the form "z <= float"
     tree = u.BinaryTree("y<=.4")
     tree.insert_left("A")
-    B = tree.insert_right("x<=.5")
-    B.insert_left("B")
-    B.insert_right("A")
+    A = tree.insert_right("x<=.5")
+    A.insert_left("B")
+    A.insert_right("A")
     answer["c, tree"] = tree
 
     return answer
@@ -310,7 +289,7 @@ def question7():
     answer = {}
 
     entropy = -((10/20)*u.log2(10/20)+(10/20)*u.log2(10/20))
-    id_gain = entropy-0
+    id_gain = entropy - 0.0
     # float
     answer["a, info gain, ID"] = id_gain
 
