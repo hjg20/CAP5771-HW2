@@ -116,15 +116,19 @@ def question2():
     # Info gain
     entropy = -.2*(0+.16/.2*u.log2(.16/.2)+.04/.2*u.log2(.04/.2))-.8*(.41/.8*u.log2(.41/.8)+.3/.8*u.log2(.3/.8)+.09/.8*u.log2(.09/.8))
     answer["(b) x <= 0.2"] = total_entropy - entropy
-    answer["(b) x <= 0.7"] = 0.
-    answer["(b) y <= 0.6"] = 0.
+
+    entropy = -.7*(.2*u.log2(.2)+.46*u.log2(.46)+.04*u.log2(.04))-.3*(.21*u.log2(.21)+0+.09*u.log2(.09))
+    answer["(b) x <= 0.7"] = total_entropy - entropy
+
+    entropy = -.4*(.32*u.log2(.32)+.04*u.log2(.04)+.04*u.log2(.04))-.6*(.09*u.log2(.09)+.42*u.log2(.42)+.09*u.log2(.09))
+    answer["(b) y <= 0.6"] = total_entropy - entropy
 
     # choose one of 'x=0.2', 'x=0.7', or 'x=0.6'
-    answer["(c) attribute"] = ""
+    answer["(c) attribute"] = "y<=6"
 
     # Use the Binary Tree structure to construct the tree
     # Answer is an instance of BinaryTree
-    tree = u.BinaryTree("Root")
+    tree = u.BinaryTree("y<=6")
     answer["(d) full decision tree"] = tree
 
     return answer
