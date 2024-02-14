@@ -84,19 +84,17 @@ def question1():
     answer["level2_left"] = level2_left
     answer["level2_right"] = level2_right
 
-    def construct_tree():
-        tree = u.BinaryTree("Tobacco Smoking")
-        A = tree.insert_left("Radon Exposure")
-        B = tree.insert_right("Weight Loss")
-        A.insert_left("n")
-        A.insert_right("y")
-        B.insert_left("n")
-        B.insert_right("y")
-        training_error = 6/10
-        return tree, training_error
+
+    tree = u.BinaryTree("Tobacco Smoking")
+    A = tree.insert_left("Radon Exposure")
+    B = tree.insert_right("Weight Loss")
+    A.insert_left("n")
+    A.insert_right("y")
+    B.insert_left("n")
+    B.insert_right("y")
+    training_error = 6/10
 
     # Fill up `construct_tree`
-    tree, training_error = construct_tree()
     answer["tree"] = tree
     answer["training_error"] = training_error
 
